@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form</title>
+</head>
+<body>
+
+  <h1>Contact Me</h1>
+
+  <form id="contactForm">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <textarea id="message" placeholder="Message" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      try {
+        const res = await fetch("http://localhost:5000/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        });
+
+        const data = await res.json();
+        alert(data.msg); // show success or error message
+      } catch (err) {
+        alert("Failed to send message");
+        console.error(err);
+      }
+    });
+  </script>
+
+</body>
+</html>
